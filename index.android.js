@@ -89,9 +89,9 @@ const TouchableOpacity = ((createReactClass({
   },
 
   touchableHandleFocus(e) {
-    if (Platform.isTV) {
-      this._opacityActive(150);
-    }
+    // if (Platform.isTV) {
+    //     this._opacityActive(150);
+    // }
     this.props.onFocus && this.props.onFocus(e);
   },
 
