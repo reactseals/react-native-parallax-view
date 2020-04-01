@@ -3,11 +3,14 @@ package com.reactlibrary;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatCheckBox;
+import com.facebook.react.uimanager.ViewGroupManager;
 
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.views.view.ReactViewGroup;
+import com.facebook.react.views.view.ReactViewManager;
 
-public class ParallaxViewManager extends SimpleViewManager<View> {
+public class ParallaxViewManager extends ReactViewManager {
 
     public static final String REACT_CLASS = "ParallaxView";
 
@@ -17,10 +20,7 @@ public class ParallaxViewManager extends SimpleViewManager<View> {
     }
 
     @Override
-    public View createViewInstance(ThemedReactContext c) {
-        // TODO: Implement some actually useful functionality
-        AppCompatCheckBox cb = new AppCompatCheckBox(c);
-        cb.setChecked(true);
-        return cb;
+    public ParallaxView createViewInstance(ThemedReactContext c) {
+        return new ParallaxView(c);
     }
 }
