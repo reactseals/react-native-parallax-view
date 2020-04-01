@@ -10,7 +10,7 @@ import {
 
 const ParallaxView = requireNativeComponent("ParallaxView", null);
 const invariant = require("invariant");
-
+const AnimatedParallaxView = Animated.createAnimatedComponent(ParallaxView);
 const ensurePositiveDelayProps = function(props: any) {
   invariant(
     !(
@@ -146,7 +146,6 @@ const TouchableOpacity = ((createReactClass({
   },
 
   render() {
-    const AnimatedParallaxView = Animated.createAnimatedComponent(ParallaxView);
     return (
       <AnimatedParallaxView
         accessible={this.props.accessible !== false}
