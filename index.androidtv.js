@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Animated,
   Easing,
@@ -22,7 +23,6 @@ const ensurePositiveDelayProps = function(props: any) {
   );
 };
 
-const React = require("react");
 const createReactClass = require("create-react-class");
 
 const PRESS_RETENTION_OFFSET = { top: 20, left: 20, right: 20, bottom: 30 };
@@ -89,9 +89,9 @@ const TouchableOpacity = ((createReactClass({
   },
 
   touchableHandleFocus(e) {
-    // if (Platform.isTV) {
-    //     this._opacityActive(150);
-    // }
+    if (Platform.isTV) {
+      this._opacityActive(150);
+    }
     this.props.onFocus && this.props.onFocus(e);
   },
 
@@ -148,6 +148,7 @@ const TouchableOpacity = ((createReactClass({
   render() {
     return (
       <AnimatedParallaxView
+        ref={this.props.forwardedRef}
         accessible={this.props.accessible !== false}
         accessibilityLabel={this.props.accessibilityLabel}
         accessibilityHint={this.props.accessibilityHint}
@@ -192,4 +193,8 @@ const TouchableOpacity = ((createReactClass({
   }
 }): any): React.ComponentType<Props>);
 
-export default TouchableOpacity;
+const TouchableOpacityWithRef = React.forwardRef((props, ref) => (
+  <TouchableOpacity {...props} forwardedRef={ref}></TouchableOpacity>
+));
+
+export default TouchableOpacityWithRef;
