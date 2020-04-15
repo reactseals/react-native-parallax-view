@@ -35,11 +35,14 @@ public class ParallaxView extends ReactViewGroup {
     }
 
     public void setTVParallaxProperties(@Nullable ReadableMap tvParallaxProperties) {
-        tvParallaxPropertiesEnabled = tvParallaxProperties.hasKey("enabled")
-                ? tvParallaxProperties.getBoolean("enabled")
-                : tvParallaxPropertiesEnabled;
-        magnification = tvParallaxProperties.hasKey("magnification") ? tvParallaxProperties.getDouble("magnification")
-                : magnification;
+        if (tvParallaxProperties != null) {
+            tvParallaxPropertiesEnabled = tvParallaxProperties.hasKey("enabled")
+                    ? tvParallaxProperties.getBoolean("enabled")
+                    : tvParallaxPropertiesEnabled;
+            magnification = tvParallaxProperties.hasKey("magnification")
+                    ? tvParallaxProperties.getDouble("magnification")
+                    : magnification;
+        }
     }
 
     public void scale(double scaleX, double scaleY, PointF pivot) {
