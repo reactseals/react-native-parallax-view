@@ -2,17 +2,18 @@ import React from "react";
 import {
   Animated,
   Easing,
-  NativeMethodsMixin,
   Platform,
   Touchable,
   StyleSheet,
-  requireNativeComponent
+  requireNativeComponent,
 } from "react-native";
+
+const NativeMethodsMixin = require("react-native/Libraries/Renderer/shims/NativeMethodsMixin");
 
 const ParallaxView = requireNativeComponent("ParallaxView", null);
 const invariant = require("invariant");
 const AnimatedParallaxView = Animated.createAnimatedComponent(ParallaxView);
-const ensurePositiveDelayProps = function(props: any) {
+const ensurePositiveDelayProps = function (props: any) {
   invariant(
     !(
       props.delayPressIn < 0 ||
@@ -33,14 +34,14 @@ const TouchableOpacity = ((createReactClass({
 
   getDefaultProps() {
     return {
-      activeOpacity: 0.2
+      activeOpacity: 0.2,
     };
   },
 
   getInitialState() {
     return {
       ...this.touchableGetInitialState(),
-      anim: new Animated.Value(this._getChildStyleOpacityWithDefault())
+      anim: new Animated.Value(this._getChildStyleOpacityWithDefault()),
     };
   },
 
@@ -66,7 +67,7 @@ const TouchableOpacity = ((createReactClass({
       toValue: value,
       duration,
       easing: Easing.inOut(Easing.quad),
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
   },
 
@@ -148,7 +149,6 @@ const TouchableOpacity = ((createReactClass({
   render() {
     return (
       <AnimatedParallaxView
-        ref={this.props.forwardedRef}
         accessible={this.props.accessible !== false}
         accessibilityLabel={this.props.accessibilityLabel}
         accessibilityHint={this.props.accessibilityHint}
@@ -186,15 +186,11 @@ const TouchableOpacity = ((createReactClass({
         {this.props.children}
         {Touchable.renderDebugView({
           color: "cyan",
-          hitSlop: this.props.hitSlop
+          hitSlop: this.props.hitSlop,
         })}
       </AnimatedParallaxView>
     );
-  }
+  },
 }): any): React.ComponentType<Props>);
 
-const TouchableOpacityWithRef = React.forwardRef((props, ref) => (
-  <TouchableOpacity {...props} forwardedRef={ref}></TouchableOpacity>
-));
-
-export default TouchableOpacityWithRef;
+export default TouchableOpacity;
