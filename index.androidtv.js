@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Animated,
   Easing,
@@ -6,12 +6,12 @@ import {
   Touchable,
   StyleSheet,
   requireNativeComponent,
-} from "react-native";
+} from 'react-native';
 
-const NativeMethodsMixin = require("react-native/Libraries/Renderer/shims/NativeMethodsMixin");
+const NativeMethodsMixin = require('react-native/Libraries/Renderer/shims/NativeMethodsMixin');
 
-const ParallaxView = requireNativeComponent("ParallaxView", null);
-const invariant = require("invariant");
+const ParallaxView = requireNativeComponent('ParallaxView', null);
+const invariant = require('invariant');
 const AnimatedParallaxView = Animated.createAnimatedComponent(ParallaxView);
 const ensurePositiveDelayProps = function (props: any) {
   invariant(
@@ -20,16 +20,16 @@ const ensurePositiveDelayProps = function (props: any) {
       props.delayPressOut < 0 ||
       props.delayLongPress < 0
     ),
-    "Touchable components cannot have negative delay properties"
+    'Touchable components cannot have negative delay properties'
   );
 };
 
-const createReactClass = require("create-react-class");
+const createReactClass = require('create-react-class');
 
 const PRESS_RETENTION_OFFSET = { top: 20, left: 20, right: 20, bottom: 30 };
 
 const TouchableOpacity = ((createReactClass({
-  displayName: "TouchableOpacity",
+  displayName: 'TouchableOpacity',
   mixins: [Touchable.Mixin.withoutDefaultFocusAndBlur, NativeMethodsMixin],
 
   getDefaultProps() {
@@ -76,7 +76,7 @@ const TouchableOpacity = ((createReactClass({
    * defined on your component.
    */
   touchableHandleActivePressIn(e) {
-    if (e.dispatchConfig.registrationName === "onResponderGrant") {
+    if (e.dispatchConfig.registrationName === 'onResponderGrant') {
       this._opacityActive(0);
     } else {
       this._opacityActive(150);
@@ -104,7 +104,17 @@ const TouchableOpacity = ((createReactClass({
   },
 
   touchableHandlePress(e) {
-    this.props.onPress && this.props.onPress(e);
+    const { onPress } = this.props;
+    const onPressLimiter = (...args) => {
+      const [event] = args;
+      const { eventKeyAction } = event;
+      if (eventKeyAction === 1) {
+        return this.props.onPress(...args);
+      }
+    };
+    return onPress && typeof onPress === 'function'
+      ? onPressLimiter(e)
+      : onPress(e);
   },
 
   touchableHandleLongPress(e) {
@@ -185,7 +195,7 @@ const TouchableOpacity = ((createReactClass({
       >
         {this.props.children}
         {Touchable.renderDebugView({
-          color: "cyan",
+          color: 'cyan',
           hitSlop: this.props.hitSlop,
         })}
       </AnimatedParallaxView>
